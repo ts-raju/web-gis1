@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Map</title>
+
+  <!-- The css we have added  -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- CSS Leaflet -->
+  <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" /> -->
+    <link rel="stylesheet" href="leaflet.css">
+
+  <!-- <link rel="stylesheet" href="leaflet.css"> -->
+
+  <!-- Javascript Leaflet -->
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+
+  <!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script> -->
+
+  <script src="leaflet.js"></script>
+</head>
+
+<body>
+  <!-- The div where the map will be displayed -->
+  <div id="map-div"></div>
+</body>
+
+<!-- IN this part we write the javascript code that displays the map in the above added map div -->
+<script>
+  // A default map variable created
+  var map = L.map('map-div').setView([27.5, 85.5], 7);
+
+  // The addition of the tile layer to the map
+  // L.tileLayer is the predefined function that adds the tile layer to the map
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, OSM'
+  }).addTo(map);
+
+
+  // Tile layer from different sourcesç
+  // https://leaflet-extras.github.io/leaflet-providers/preview/
+  // Adding base Layer Map
+  // var Stadia_AlidadeSmoothDark = L.tileLayer(
+  //   'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+  //     maxZoom: 20,
+  //     attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+  //   });
+  //Stadia_AlidadeSmoothDark.addTo(map);
+
+  // var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+  //   maxZoom: 17,
+  //   attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+  // });
+
+  var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+
+  OpenStreetMap_Mapnik.addTo(map); 
+
+  
+
+// Marker icon change
+var policeStationIcon = L.icon({
+    iconUrl: 'police_station.png',
+    iconSize:     [40, 40], // size of the icon
+    iconAnchor:   [22, 80], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+var schoolIcon = L.icon({
+    iconUrl: 'school-icon.png',
+    iconSize:     [40, 40], // size of the icon
+    iconAnchor:   [22, 80], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+
+  // // The addition of the marker to the map
+  // // The marker is created with the predefined function L.marker
+  L.marker([27.41706, 85.32815], {icon: policeStationIcon})
+    .addTo(map)
+    .bindPopup('प्रहरी प्रधान कार्यालय, नक्साल')
+    .openPopup();
+
+
+  // If we have many schools coordinates in array
+  
+var schools = [[27.6633658, 86.0455101],[27.6, 86.6],[26.6372187,87.780945],[28.471861, 83.179873], [27.809664, 82.990763]];
+
+for (let index = 0; index < schools.length; index++) {
+  const element = schools[index];
+  L.marker(element, {icon: schoolIcon}).addTo(map)
+  .bindPopup('विद्यालय-'+index+1);
+}
+</script>
+
+</html>
